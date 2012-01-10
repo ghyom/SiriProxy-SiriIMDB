@@ -32,40 +32,40 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	return movieRating
   end
 
-  listen_for /how many stars did (.*) get/i do |movieTitle|
+  listen_for /wieviele Sterne hat (.*) bekommen/i do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	#Search for the movie and get the rating as a string
 	movieRating = getRating (movieTitle)
 	movieRatingString = movieRating.to_s
-	say "" + movieTitle + " has a rating of " + movieRatingString + " stars out of 10."
+	say "" + movieTitle + " wurde mit " + movieRatingString + " von 10 Sternen bewertet!"
     request_completed
   end
   
-  listen_for /should i see (.*)/i do |movieTitle|
+  listen_for /Sollte ich mir (.*) ansehen/i do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	movieRating = getRating(movieTitle)
 	movieRatingString = movieRating.to_s
 	if (movieRating < 6)
-		say "You probably shouldn't see " + movieTitle + ", it only got " + movieRatingString + " stars."
+		say "Du solltest dir " + movieTitle + " lieber nicht ansehen, er hat nur " + movieRatingString + " von 10 Sternen!"
 	elsif (movieRating < 8)
-		say "I'd recommend seeing " + movieTitle + ", it got " + movieRatingString + " stars."
+		say "Ich kann dir den Film " + movieTitle + "empfehlen, er hat " + movieRatingString + " von 10 Sternen!"
 	elsif (movieRating >= 8)
-		say "" + movieTitle + " is a must-see.  It got " + movieRatingString + " stars."
+		say "" + movieTitle + " musst du dir ansehen! Er hat " + movieRatingString + " Sterne bekommen!"
 	end
     request_completed
   end
 
- listen_for /who was in (.*)/i  do |movieTitle|
+ listen_for /wer hat in (.*) mitgespielt/i  do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	movieActors = getActors(movieTitle)
-	say "" + movieActors[0] + ", " + movieActors[1] + ", and " + movieActors[2] + " were in " + movieTitle + "."
+	say "" + movieActors[0] + ", " + movieActors[1] + ", und " + movieActors[2] + " spielten in " + movieTitle + "mit."
     request_completed
   end
 
- listen_for (/who's in (.*)/i)  do |movieTitle|
+ listen_for (/wer spielt in (.*) mit/i)  do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	movieActors = getActors(movieTitle)
-	say "" + movieActors[0] + ", " + movieActors[1] + ", and " + movieActors[2] + " were in " + movieTitle + "."
+	say "" + movieActors[0] + ", " + movieActors[1] + ", und " + movieActors[2] + " spielten in " + movieTitle + "mit."
     request_completed
   end  
   
@@ -76,10 +76,10 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
     request_completed
   end
   
-  listen_for /Who is the lead actor in (.*)/i do |movieTitle|
+  listen_for /Wer ist der Hauptdarsteller in (.*)/i do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	movieActor = getLeadActor(movieTitle)
-	say "The main actor in " + movieTitle + " is " + movieActor + "."
+	say "Der Hauptdarsteller in " + movieTitle + " ist " + movieActor + "."
 	request_completed
   end
   
@@ -101,12 +101,12 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	request_completed
   end
   
-  listen_for /When was (.*) released/i do |movieTitle|
+  listen_for /von wann ist (.*)/i do |movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	search = Imdb::Search.new(movieTitle)
 	movie = search.movies[0]
 	movieDate = movie.release_date()
-	say "" + movieTitle + " was released on " + movieDate + "."
+	say "" + movieTitle + " kommt aus dem Jahr " + movieDate + "."
 	request_completed
   end
 end
