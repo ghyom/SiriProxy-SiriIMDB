@@ -33,7 +33,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	return movieRating
   end
   
-  listen_for /(Dois-je regarder|Dois-je voir|Que penses-tu de|Est-ce que tu me conseilles|Est-ce que tu me conseil) (.*)/i do |question, movieTitle|
+  listen_for /(Dois-je regarder|Dois-je voir|Que penses-tu de|Est-ce que tu me conseilles|Est-ce que tu me conseil) (.*)/i do |question,movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	movieRating = getRating(movieTitle)
 	movieRatingString = movieRating.to_s
@@ -47,7 +47,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
     request_completed
   end
   
-  listen_for /(Qui joue|Qui a joué) dans (.*)/i  do |question, movieTitle|
+  listen_for /(Qui joue|Qui a joué) dans (.*)/i  do |question,movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	movieActors = getActors(movieTitle)
 	say "" + movieActors[0] + ", " + movieActors[1] + ", et " + movieActors[2] + " ont joués dans " + movieTitle + "."
@@ -72,7 +72,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	  request_completed
   end
   
-  listen_for /(Quand est sortit|Quand a été produit|Quand a été réalisés|Quand a été réalisé) (.*)/i do |question, movieTitle|
+  listen_for /(Quand est sorti|Quand à été produit|Quand à été réalisé) (.*)/i do |question,movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	search = Imdb::Search.new(movieTitle)
 	movie = search.movies[0]
