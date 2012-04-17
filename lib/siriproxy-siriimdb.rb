@@ -40,7 +40,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	if (movieRating < 6)
 		say "Le film " + movieTitle + " a seulement obtenu " + movieRatingString + " sur 10, ce n'est pas génial..."
 	elsif (movieRating < 8)
-		say "Vous devriez vraiment voir le film " + movieTitle + ", il a obtenu " + movieRatingString + "  sur 10"
+		say "Vous devriez vraiment voir le film " + movieTitle + ", il a obtenu " + movieRatingString + " sur 10"
 	elsif (movieRating >= 8)
 		say "Le film " + movieTitle + " est à voir absolument, il a un score de " + movieRatingString + " sur 10 !"
 	end
@@ -54,7 +54,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
     request_completed
   end
   
-  listen_for (/(Qui est l\'acteur principal|Qui est le héro) dans (.*)/i) do |question, movieTitle|
+  listen_for (/(Qui est l\'acteur principal dans|Qui est le héro dans|Qui est le héros dans|Qui est l\'acteur principal de|Qui est le héro de|Qui est le héros de) (.*)/i) do |question, movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	search = Imdb::Search.new(movieTitle)
 	movie = search.movies[0]
@@ -72,7 +72,7 @@ class SiriProxy::Plugin::SiriIMDB < SiriProxy::Plugin
 	  request_completed
   end
   
-  listen_for /(Quand est sorti|Quand a été produit|Quand a été réalisé) (.*)/i do |question, movieTitle|
+  listen_for /(Quand est sorti|Quand a été produit|Quand a été réalisé|En quelle année est sorti) (.*)/i do |question, movieTitle|
 	movieTitle = movieTitle.split(' ').map {|w| w.capitalize }.join(' ')
 	search = Imdb::Search.new(movieTitle)
 	movie = search.movies[0]
